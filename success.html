@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pl">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="JS Explorer - Sukces!" />
+        <meta name="author" content="Marcin Basak" />
+        <title>JS Explorer - Sukces!</title>
+        <script src="jquery/jquery.js"></script>
+        <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+        <link href="css/footer.css" rel="stylesheet" />
+        <link href="css/success_styles.css" rel="stylesheet" />
+    </head>
+    <body>
+        <div id="container">
+            <img src="zdjecia/success.png" alt="success" />
+            <div class="success">Sukces <span id="name"></span>!</div>
+            <div class="success">Zostałeś zapisany na kurs <span id="course"></span>!</div>
+            <div class="info">Za chwilę zostaniesz przekierowany na stronę główną...</div>
+        </div>
+        <!-- Footer-->
+        <footer>
+            <span>Copyright &copy; Marcin Basak</span>
+            <span>Projekt PAI 2022</span>
+        </footer>
+        <script>
+            $(document).ready(function () {
+                setTimeout(function () {
+                    location = 'index.html';
+                }, 3500);
+            });
+            $(function () {
+                getCourse();
+            });
+            function getCourse () {
+                let querySyring = window.location.search;
+                let urlParams = new URLSearchParams(querySyring);
+                $('#name')[0].innerText = urlParams.get('imie');
+                $('#course')[0].innerText = urlParams.get('kurs').charAt(0).toUpperCase() + urlParams.get('kurs').slice(1);
+            }
+        </script>
+    </body>
+</html>

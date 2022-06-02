@@ -1,0 +1,54 @@
+{
+    "cards": [
+        {
+            "title": "Angular",
+            "content": "Otwarty framework oparty wspierany i firmowany przez Google, wspomagający tworzenie i rozwój aplikacji internetowych na pojedynczej stronie.",
+            "url": "https://angular.io/"
+        },
+        {
+            "title": "Mithril",
+            "content": "Nowoczesny framework po stronie klienta do tworzenia aplikacji na jednej stronie. Ma neiwielki rozmiar, jest szybki zapewnia routing i narzędzia XHR.",
+            "url": "https://mithril.js.org/"
+        },
+        {
+            "title": "Ember",
+            "content": "Otwarta biblioteka, ułatwiająca pisanie aplikacji internetowych po stronie klienta z użyciem wzorca Model-View-Controller (MVC).",
+            "url": "https://emberjs.com/"
+        },
+        {
+            "title": "Vue",
+            "content": "Otwarty framework do tworzenia interfejsów użytkownika i aplikacji na pojedynczych stronach. Został stworzony prze Evana You i jest utrzymywany przez aktywnych członków.",
+            "url": "https://vuejs.org/"
+        },
+        {
+            "title": "React",
+            "content": "Biblioteka, która wykorzystywana jest do tworzenia interfejsów graficznych aplikacji internetowych. Została stworzona przez Jordana Walke, programistę Facebooka.",
+            "url": "https://pl.reactjs.org/"
+        },
+        {
+            "title": "Meteor",
+            "content": "Otwarty framework, napisany w Node.js. Meteor umożliwia szybkie przetwarzanie i tworzenie kodu wieloplatformowego.",
+            "url": "https://www.meteor.com/"
+        },
+        {
+            "title": "Polymer",
+            "content": "Otwarta biblioteka do tworzenia aplikacji internetowych. Biblioteka została stworzona przez Google i jest utrzymywana przez deweloperów na platfromie GitHub.",
+            "url": "https://polymer-library.polymer-project.org/"
+        },
+        {
+            "title": "Node",
+            "content": "Wieloplatformowe środowisko uruchomieniowe o otwartym kodzie do tworzenia aplikacji typu server-side napisanych w języku JavaScript.",
+            "url": "https://nodejs.org/en/"
+        },
+        {
+            "title": "Aurelia",
+            "content": "Framework po stronie klienta do tworzenie aplikacji na przeglądarki internetowe, urządzenia mobilne i komputery stacjonarne.",
+            "url": "https://aurelia.io/"
+        },
+        {
+            "title": "Backbone",
+            "content": "Biblioteka programistyczna wykorzystywana do tworzenia aplikacji internetowych na pojedynczej stronie. Biblioteka została zbudowana z użyciem interfejsu RESTful JSON i bazuje na wzorcu Model-View-Controller (MVC).",
+            "url": "https://backbonejs.org/"
+        }
+    ]
+}

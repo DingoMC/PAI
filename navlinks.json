@@ -1,0 +1,9 @@
+{
+    "links": [
+        {"href":"index.html","title":"Główna"},
+        {"href":"kursy.html","title":"Kursy"},
+        {"href":"admin.html","title":"Panel"},
+        {"href":"about.html","title":"O projekcie..."},
+        {"href":"kontakt.html","title":"Kontakt"}
+    ]
+}

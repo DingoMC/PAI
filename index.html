@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="pl">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="JS Explorer" />
+        <meta name="author" content="Marcin Basak" />
+        <title>JS Explorer</title>
+        <script src="jquery/jquery.js"></script>
+        <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+        <link href="css/styles.css" rel="stylesheet" />
+        <link href="css/index_styles.css" rel="stylesheet" />
+        <link href="css/footer.css" rel="stylesheet" />
+    </head>
+    <body>
+        <!-- Responsive navbar-->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container px-5">
+                <a class="navbar-brand" href="#!">JS Explorer</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0" id="navlinks"></ul>
+                </div>
+            </div>
+        </nav>
+        <!-- Page Content-->
+        <div class="container px-4 px-lg-5">
+            <!-- Heading Row-->
+            <div class="row gx-4 gx-lg-5 align-items-center my-5">
+                <div class="col-lg-7" id="slideshow">
+                    <img class="img-fluid rounded mb-4 mb-lg-0 active" src="zdjecia/baner1.png" alt="image1" />
+                    <img class="img-fluid rounded mb-4 mb-lg-0" src="zdjecia/baner2.png" alt="image2" />
+                    <img class="img-fluid rounded mb-4 mb-lg-0" src="zdjecia/baner3.png" alt="image3" />
+                    <img class="img-fluid rounded mb-4 mb-lg-0" src="zdjecia/baner4.png" alt="image4" />
+                    <img class="img-fluid rounded mb-4 mb-lg-0" src="zdjecia/baner5.png" alt="image5" />
+                    <img class="img-fluid rounded mb-4 mb-lg-0" src="zdjecia/baner6.png" alt="image6" />
+                </div>
+                <div class="col-lg-5">
+                    <h1 class="font-weight-light">Frameworki JS</h1>
+                    <p>Framework jest czymś w rodzaju fundamentu dla naszej aplikacji. Dzięki niemu możemy korzystać z wielu rozwiązań, a każdy z nich posiada swoje wady i zalety. Poniżej znajdziesz informacje o 10 najlepszych frameworkach JavaScript na rok 2022.</p>
+                </div>
+            </div>
+            <!-- Content Row-->
+            <div class="row gx-4 gx-lg-5" id="cards"></div>
+        </div>
+        <!-- Footer-->
+        <footer>
+            <span>Copyright &copy; Marcin Basak</span>
+            <span>Projekt PAI 2022</span>
+        </footer>
+        <!-- Bootstrap core JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Core theme JS-->
+        <script src="js/scripts.js"></script>
+        <script>
+            // Slider
+            function slideSwitch () {
+                let $active = $('#slideshow IMG.active');
+                if ($active.length === 0) $active = $('#slideshow IMG:last');
+                let $next = $active.next().length ? $active.next() : $('#slideshow IMG:first');
+                $active.addClass('last-active');
+                $next.css({opacity: 0.0})
+                .addClass('active')
+                .animate({opacity: 1.0}, 1000, function () {
+                    $active.removeClass('active last-active');
+                });
+            }
+            $(function () {
+                setInterval("slideSwitch()", 5000);
+            });
+            // Karty
+            fetch('karty.json')
+            .then(response => response.json())
+            .then(data => {
+                let innerHTML = '';
+                for (let i = 0; i < data.cards.length; i++) {
+                    innerHTML += '<div class="col-md-4 col-sm-6 mb-5"><div class="card h-100 ' + data.cards[i].title.toLowerCase() + '"><div class="card-body">';
+                    innerHTML += '<h2 class="card-title"><img src="zdjecia/' + data.cards[i].title.toLowerCase() + '.png" />' + data.cards[i].title + '</h2>';
+                    innerHTML += '<p class="card-text">' + data.cards[i].content + '</p>';
+                    innerHTML += '</div>';
+                    innerHTML += '<div class="card-footer"><a class="btn btn-primary btn-sm" target="blank" href="' + data.cards[i].url + '">Czytaj więcej...</a></div>';
+                    innerHTML += '</div></div>';
+                }
+                $('#cards')[0].innerHTML = innerHTML;
+            })
+            .catch(console.error);
+            // Nawigacja
+            function IsLinkThisPage (link) {
+                let href = document.location.href;
+                let lastPathSegment = href.substr(href.lastIndexOf('/')  + 1);
+                if (lastPathSegment == link) return true;
+                return false;
+            }
+            fetch('navlinks.json')
+            .then(response => response.json())
+            .then(data => {
+                let innerHTML = '';
+                for (let i = 0; i < data.links.length; i++) {
+                    if (IsLinkThisPage(data.links[i].href)) innerHTML += '<li class="nav-item"><a class="nav-link active" aria-current="page" href="#!">' + data.links[i].title + '</a></li>';
+                    else innerHTML += '<li class="nav-item"><a class="nav-link" href="' + data.links[i].href + '">' + data.links[i].title + '</a></li>';
+                }
+                $('#navlinks')[0].innerHTML = innerHTML;
+            })
+            .catch(console.error)
+        </script>
+    </body>
+</html>

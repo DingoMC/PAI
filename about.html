@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pl">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="JS Explorer - O..." />
+        <meta name="author" content="Marcin Basak" />
+        <title>JS Explorer - O...</title>
+        <script src="jquery/jquery.js"></script>
+        <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+        <link href="css/styles.css" rel="stylesheet" />
+        <link href="css/footer.css" rel="stylesheet" />
+    </head>
+    <body>
+        <!-- Responsive navbar-->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container px-5">
+                <a class="navbar-brand" href="#!">JS Explorer</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0" id="navlinks"></ul>
+                </div>
+            </div>
+        </nav>
+        <!-- Page Content-->
+        <div class="container px-4 px-lg-5">
+            <h3>Projekt został zrealizowany w ramach laboratorium "Podstawy Aplikacji Internetowych"</h3>
+            <p>Tematyką projektu jest lista 10 najlepszych frameworków na rok 2022.</p>
+            <p>Do oprogramowania stron internetowych wykorzystano wiedzę z zakresu HTML 5, CSS 3 i JavaScript, bibliotekę jQuery, szablon Bootstrap oraz Fetch API.</p>
+            <p>Część danych na stronie internetowej odczytywane i zapisywane są na serwerze w formacie JSON.</p>
+        </div>
+        <!-- Footer-->
+        <footer>
+            <span>Copyright &copy; Marcin Basak</span>
+            <span>Projekt PAI 2022</span>
+        </footer>
+        <!-- Bootstrap core JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Core theme JS-->
+        <script src="js/scripts.js"></script>
+        <script>
+            function IsLinkThisPage (link) {
+                let href = document.location.href;
+                let lastPathSegment = href.substr(href.lastIndexOf('/')  + 1);
+                if (lastPathSegment == link) return true;
+                return false;
+            }
+            fetch('navlinks.json')
+            .then(response => response.json())
+            .then(data => {
+                let innerHTML = '';
+                for (let i = 0; i < data.links.length; i++) {
+                    if (IsLinkThisPage(data.links[i].href)) innerHTML += '<li class="nav-item"><a class="nav-link active" aria-current="page" href="#!">' + data.links[i].title + '</a></li>';
+                    else innerHTML += '<li class="nav-item"><a class="nav-link" href="' + data.links[i].href + '">' + data.links[i].title + '</a></li>';
+                }
+                $('#navlinks')[0].innerHTML = innerHTML;
+            })
+            .catch(console.error)
+        </script>
+    </body>
+</html>

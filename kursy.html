@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="pl">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="JS Explorer - Kursy" />
+        <meta name="author" content="Marcin Basak" />
+        <title>JS Explorer - Kursy</title>
+        <script src="jquery/jquery.js"></script>
+        <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+        <link href="css/styles.css" rel="stylesheet" />
+        <link href="css/footer.css" rel="stylesheet" />
+        <link href="css/kursy_styles.css" rel="stylesheet" />
+    </head>
+    <body>
+        <!-- Responsive navbar-->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container px-5">
+                <a class="navbar-brand" href="#!">JS Explorer</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0" id="navlinks"></ul>
+                </div>
+            </div>
+        </nav>
+        <!-- Page Content-->
+        <div class="container px-4 px-lg-5">
+            <form onsubmit="saveData()" action="success.html">
+                <span class="form-title">Formularz zapisu na kurs</span>
+                <div class="form-section">
+                    <span class="section-title">Dane osobowe</span>
+                    <div class="field">
+                        <div class="stitle"><span>Imię:</span><span class="force" title="Poniższe pole jest wymagane">*</span></div>
+                        <input type="text" name="imie" id="imie" />
+                        <div id="imie-warn" class="warn-hidden">Proszę poprawnie podać swoje imie!</div>
+                        <div id="imie-empty" class="error-hidden">Wypełnij to pole!</div>
+                    </div>
+                    <div class="field">
+                        <div class="stitle"><span>Nazwisko:</span><span class="force" title="Poniższe pole jest wymagane">*</span></div>
+                        <input type="text" name="nazwisko" id="nazwisko" />
+                        <div id="nazwisko-warn" class="warn-hidden">Proszę poprawnie podać swoje nazwisko!</div>
+                        <div id="nazwisko-empty" class="error-hidden">Wypełnij to pole!</div>
+                    </div>
+                    <div class="field">
+                        <div class="stitle"><span>Wiek:</span><span class="force" title="Poniższe pole jest wymagane">*</span></div>
+                        <input type="number" name="wiek" id="wiek" min="13" max="200" />
+                        <div id="wiek-warn" class="warn-hidden">Nieprawidłowa wartość!</div>
+                    </div>
+                </div>
+                <div class="form-section">
+                    <span class="section-title">Dane logowania</span>
+                    <div class="field">
+                        <div class="stitle"><span>Adres E-mail:</span><span class="force" title="Poniższe pole jest wymagane">*</span></div>
+                        <input type="email" name="email" id="email" />
+                        <div id="email-warn" class="warn-hidden">Proszę poprawnie podać swój adres e-mail!</div>
+                        <div id="email-empty" class="error-hidden">Wypełnij to pole!</div>
+                    </div>
+                    <div class="field">
+                        <div class="stitle"><span>Nazwa użytkownika:</span><span class="force" title="Poniższe pole jest wymagane">*</span></div>
+                        <input type="text" name="login" id="login" />
+                        <div id="login-warn" class="warn-hidden">Proszę poprawnie podać swoją nazwę użytkownika!</div>
+                        <div id="login-empty" class="error-hidden">Wypełnij to pole!</div>
+                    </div>
+                    <div class="field">
+                        <div class="stitle"><span>Hasło (min. 8 znaków):</span><span class="force" title="Poniższe pole jest wymagane">*</span></div>
+                        <input type="password" name="pass" id="pass" />
+                        <div id="pass-warn" class="warn-hidden">Proszę poprawnie podać swoje hasło!</div>
+                        <div id="pass-empty" class="error-hidden">Wypełnij to pole!</div>
+                    </div>
+                    <div class="field">
+                        <div class="stitle"><span>Powtórz hasło:</span><span class="force" title="Poniższe pole jest wymagane">*</span></div>
+                        <input type="password" id="cpass" />
+                        <div id="cpass-warn" class="warn-hidden">Proszę powtórzyć swoje hasło!</div>
+                        <div id="cpass-empty" class="error-hidden">Wypełnij to pole!</div>
+                    </div>
+                </div>
+                <div class="form-section">
+                    <span class="section-title">Informacje dotyczące zapisu</span>
+                    <div class="field">
+                        <div class="stitle"><span>Zapisz mnie na kurs z:</span><span class="force" title="Poniższe pole jest wymagane">*</span></div>
+                        <select name="kurs" id="kurs"></select>
+                    </div>
+                    <div class="field">
+                        <div class="stitle"><span>Sposób zapłaty:</span><span class="force" title="Poniższe pole jest wymagane">*</span></div>
+                        <div class="button-group">
+                            <input type="radio" name="pay" value="card" checked /><span class="option">Karta</span>
+                            <input type="radio" name="pay" value="bank" /><span class="option">Przelew bankowy</span>
+                            <input type="radio" name="pay" value="paypal" /><span class="option">PayPal</span>
+                        </div>
+                    </div>
+                    <div class="button-group">
+                        <input type="checkbox" value="reg" id="reg" /><span class="option">Akceptuję regulamin i wyrażam zgodę na przetwarzanie danych osobowych<span class="force" title="Poniższe pole jest wymagane">*</span></span>
+                    </div>
+                    <div id="reg-empty" class="error-hidden">Zaakceptuj regulamin aby kontynuować!</div>
+                </div>
+                <div class="fbuttons">
+                    <div id="summary" class="summary-hidden"></div>
+                    <button value="sumbit" id="send" disabled>Wyślij</button>
+                </div>
+            </form>
+        </div>
+        <!-- Footer-->
+        <div id="bottom-redux"></div>
+        <footer>
+            <span>Copyright &copy; Marcin Basak</span>
+            <span>Projekt PAI 2022</span>
+        </footer>
+        <!-- Bootstrap core JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Core theme JS-->
+        <script src="js/scripts.js"></script>
+        <script>
+            // Lista - Kursy
+            fetch('karty.json')
+            .then(response => response.json())
+            .then(data => {
+                let innerHTML = '';
+                for (let i = 0; i < data.cards.length; i++) {
+                    innerHTML += '<option '+ (i == 0 ? 'selected="selected"' : '') +' value="' + data.cards[i].title.toLowerCase() + '" >' + data.cards[i].title + '</option><span class="option">' + data.cards[i].title + '</span>';
+                }
+                $('#kurs')[0].innerHTML = innerHTML;
+            })
+            .catch(console.error);
+            // Nawigacja
+            function IsLinkThisPage (link) {
+                let href = document.location.href;
+                let lastPathSegment = href.substr(href.lastIndexOf('/')  + 1);
+                if (lastPathSegment == link) return true;
+                return false;
+            }
+            fetch('navlinks.json')
+            .then(response => response.json())
+            .then(data => {
+                let innerHTML = '';
+                for (let i = 0; i < data.links.length; i++) {
+                    if (IsLinkThisPage(data.links[i].href)) innerHTML += '<li class="nav-item"><a class="nav-link active" aria-current="page" href="#!">' + data.links[i].title + '</a></li>';
+                    else innerHTML += '<li class="nav-item"><a class="nav-link" href="' + data.links[i].href + '">' + data.links[i].title + '</a></li>';
+                }
+                $('#navlinks')[0].innerHTML = innerHTML;
+            })
+            .catch(console.error);
+            /* Sprawdzanie pól */
+            let fields = new Array('imie', 'nazwisko', 'email', 'login', 'pass', 'cpass');
+            let RegExps = new Array (
+                /^[A-ZĄĆĘŁŃÓŻŹŚ][a-ząćęłńóżźś]{2,20}(\s[A-ZĄĆĘŁŃÓŻŹŚ][a-ząćęłńóżźś]{2,20})?$/,
+                /^[A-ZĄĆĘŁŃÓŻŹŚ][a-ząćęłńóżźś]{2,20}(-[A-ZĄĆĘŁŃÓŻŹŚ][a-ząćęłńóżźś]{2,20})?$/,
+                /^([a-zA-Z0-9])+([.a-zA-Z0-9_-])*@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-]+)+/,
+                /^[a-zA-Z0-9]{4,20}$/,
+                /^[a-zA-z0-9_-]{8,32}$/,
+                /^[a-zA-z0-9_-]{8,32}$/
+            );
+            // Sprawdz RegEx
+            function checkRegEx (val, expr) {
+                if (expr.test(val)) return true;
+                else return false;
+            }
+            // Sprawdz pole tekstowe
+            function checkField (iter, elem) {
+                $('#' + fields[iter] + '-empty').removeClass();
+                elem.removeClass();
+                // Sprawdz czy pole puste
+                if (elem.val() === null || elem.val() == '') {
+                    $('#' + fields[iter] + '-warn').addClass('warn-hidden');
+                    $('#' + fields[iter] + '-empty').addClass('error');
+                    elem.addClass('input-error');
+                    return false;
+                }
+                $('#' + fields[iter] + '-empty').addClass('error-hidden');
+                $('#' + fields[iter] + '-warn').removeClass();
+                // Sprawdz czy regex sie zgadza
+                if (!checkRegEx(elem.val(), RegExps[iter])) {
+                    $('#' + fields[iter] + '-warn').addClass('warn');
+                    elem.addClass('input-error');
+                    return false;
+                }
+                $('#' + fields[iter] + '-warn').addClass('warn-hidden');
+                // Sprawdz czy powtorzone haslo sie zgadza
+                if (fields[iter] == 'cpass' && elem.val() !== $('#pass').val()) {
+                    $('#' + fields[iter] + '-warn').removeClass();
+                    $('#' + fields[iter] + '-warn').addClass('warn');
+                    elem.addClass('input-error');
+                    return false;
+                }
+                return true;
+            }
+            // Sprawdz Wiek
+            function checkAge () {
+                $('#wiek-warn').removeClass();
+                $('#wiek').removeClass();
+                // Sprawdz czy to liczba
+                if (isNaN(parseInt($('#wiek').val()))) {
+                    $('#wiek').addClass('input-error');
+                    $('#wiek-warn').addClass('warn');
+                    return false;
+                }
+                // Sprawdz czy miesci sie w granicach
+                if (parseInt($('#wiek').val()) < 13 || parseInt($('#wiek').val()) > 200) {
+                    $('#wiek').addClass('input-error');
+                    $('#wiek-warn').addClass('warn');
+                    return false;
+                }
+                $('#wiek-warn').addClass('warn-hidden');
+                return true;
+            }
+            // Sprawdz regulamin
+            function checkReg () {
+                $('#reg-empty').removeClass();
+                if (!$('#reg').is(':checked')) {
+                    $('#reg-empty').addClass('error');
+                    return false;
+                }
+                $('#reg-empty').addClass('error-hidden');
+                return true;
+            }
+            // Kontrola wysyłania / liczby błędów
+            let errors = new Array(8).fill(true);
+            function updateSummary () {
+                let error_count = errors.filter(v => v === true).length;
+                if (error_count == 0) {
+                    $('#summary')[0].innerHTML = '<span class="ok">Nie wykryto błędów. Gotowe do wysłania</span>';
+                    $('#summary').removeClass();
+                    $('#send').removeAttr('disabled');
+                }
+                else {
+                    $('#summary')[0].innerHTML = '<span class="error">Liczba błędów w formularzu: ' + error_count + '</span>';
+                    $('#summary').removeClass();
+                    $('#send').attr('disabled','disabled');
+                }
+            }
+            // Sprawdz po zaladowaniu strony
+            $(document).ready(function () {
+                for (let i = 0; i < fields.length; i++) {
+                    let elem = $('#' + fields[i]);
+                    if(!checkField(i, elem)) errors[i] = true;
+                    else errors[i] = false;
+                }
+                if (!checkAge()) errors[6] = true;
+                else errors[6] = false;
+                if (!checkReg()) errors[7] = true;
+                else errors[7] = false;
+                updateSummary();
+            });
+            // Sprawdz podczas interakcji z polami
+            for (let i = 0; i < fields.length; i++) {
+                let elem = $('#' + fields[i]);
+                elem.on('input click', function() {
+                    if(!checkField(i, elem)) errors[i] = true;
+                    else errors[i] = false;
+                    updateSummary();
+                });
+            }
+            $('#wiek').on('input click', function() {
+                if (!checkAge()) errors[6] = true;
+                else errors[6] = false;
+                updateSummary();
+            });
+            $('#reg').on('input click', function() {
+                if (!checkReg()) errors[7] = true;
+                else errors[7] = false;
+                updateSummary();
+            });
+            // Wyślij dane
+            function saveData () {
+                let user = {};
+                user.personalData = {};
+                user.personalData.name = $('#imie').val();
+                user.personalData.surname = $('#nazwisko').val();
+                user.personalData.age = $('#wiek').val();
+                user.accountData = {};
+                user.accountData.email = $('#email').val();
+                user.accountData.nick = $('#login').val();
+                user.accountData.pass = $('#pass').val();
+                user.courseData = {};
+                user.courseData.type = $('#kurs :selected').val();
+                user.courseData.payment = $('input[name="pay"]:checked').val();
+                if (localStorage.length == 0) localStorage.setItem('user-0', JSON.stringify(user));
+                else {
+                    let lastKeyNum = parseInt(localStorage.key(0).slice(5));
+                    localStorage.setItem('user-' + (lastKeyNum + 1).toString(), JSON.stringify(user));
+                }
+            }
+        </script>
+    </body>
+</html>

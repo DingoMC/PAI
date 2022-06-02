@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="pl">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="JS Explorer - Administrator" />
+        <meta name="author" content="Marcin Basak" />
+        <title>JS Explorer - Administrator</title>
+        <script src="jquery/jquery.js"></script>
+        <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+        <link href="css/styles.css" rel="stylesheet" />
+        <link href="css/footer.css" rel="stylesheet" />
+        <link href="css/admin_styles.css" rel="stylesheet" />
+    </head>
+    <body>
+        <!-- Responsive navbar-->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container px-5">
+                <a class="navbar-brand" href="#!">Panel Administratora</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0" id="navlinks"></ul>
+                </div>
+            </div>
+        </nav>
+        <!-- Page Content-->
+        <div class="container px-4 px-lg-5">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>    <th>Imię i Nazwisko</th> <th>Nazwa użytkownika</th> <th>E-mail</th> <th>Kurs</th>    <th>Akcja</th>
+                    </tr>
+                    <tr>
+                        <th><div id="wrap"><input type="button" onclick="SortBy(0)" value="Sortuj" /><div class="sorting-arrows"><div class="arrow-up inactive au-col-0"></div><div class="arrow-none an-col-0"></div><div class="arrow-down inactive ad-col-0"></div></div></div></th>   
+                        <th><div id="wrap"><input type="button" onclick="SortBy(1)" value="Sortuj" /><div class="sorting-arrows"><div class="arrow-up inactive au-col-1"></div><div class="arrow-none an-col-1"></div><div class="arrow-down inactive ad-col-1"></div></div></div></th>
+                        <th><div id="wrap"><input type="button" onclick="SortBy(2)" value="Sortuj" /><div class="sorting-arrows"><div class="arrow-up inactive au-col-2"></div><div class="arrow-none an-col-2"></div><div class="arrow-down inactive ad-col-2"></div></div></div></th>
+                        <th><div id="wrap"><input type="button" onclick="SortBy(3)" value="Sortuj" /><div class="sorting-arrows"><div class="arrow-up inactive au-col-3"></div><div class="arrow-none an-col-3"></div><div class="arrow-down inactive ad-col-3"></div></div></div></th>
+                        <th><div id="wrap"><input type="button" onclick="SortBy(4)" value="Sortuj" /><div class="sorting-arrows"><div class="arrow-up inactive au-col-4"></div><div class="arrow-none an-col-4"></div><div class="arrow-down inactive ad-col-4"></div></div></div></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody id="users"></tbody>
+                <tfoot><tr><td id="total" colspan="6"></td></tr></tfoot>
+            </table>
+        </div>
+        <!-- Footer-->
+        <div id="bottom-redux"></div>
+        <footer>
+            <span>Copyright &copy; Marcin Basak</span>
+            <span>Projekt PAI 2022</span>
+        </footer>
+        <!-- Bootstrap core JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Core theme JS-->
+        <script src="js/scripts.js"></script>
+        <script>
+            let asc = new Array(5);
+            asc.fill(true);
+            // Nawigacja
+            function IsLinkThisPage (link) {
+                let href = document.location.href;
+                let lastPathSegment = href.substr(href.lastIndexOf('/')  + 1);
+                if (lastPathSegment == link) return true;
+                return false;
+            }
+            fetch('navlinks.json')
+            .then(response => response.json())
+            .then(data => {
+                let innerHTML = '';
+                for (let i = 0; i < data.links.length; i++) {
+                    if (IsLinkThisPage(data.links[i].href)) innerHTML += '<li class="nav-item"><a class="nav-link active" aria-current="page" href="#!">' + data.links[i].title + '</a></li>';
+                    else innerHTML += '<li class="nav-item"><a class="nav-link" href="' + data.links[i].href + '">' + data.links[i].title + '</a></li>';
+                }
+                $('#navlinks')[0].innerHTML = innerHTML;
+            })
+            .catch(console.error);
+            // Dezaktywuj wskaźniki sortowania w innych kolumnach niż sortowanej
+            function deactivateSortArrows (active_col) {
+                for (let i = 0; i < asc.length; i++) {
+                    if (active_col != i) {
+                        $('.au-col-' + i.toString()).addClass('inactive');
+                        $('.ad-col-' + i.toString()).addClass('inactive');
+                        $('.an-col-' + i.toString()).removeClass('inactive');
+                    }
+                }
+            }
+            // Zmiana widoczności wskaźników sortowania w aktywnej kolumnie
+            function switchSortArrows (active_col) {
+                $('.an-col-' + active_col.toString()).addClass('inactive');
+                if (asc[active_col]) {
+                    $('.ad-col-' + active_col.toString()).addClass('inactive');
+                    $('.au-col-' + active_col.toString()).removeClass('inactive');
+                }
+                else {
+                    $('.au-col-' + active_col.toString()).addClass('inactive');
+                    $('.ad-col-' + active_col.toString()).removeClass('inactive');
+                }
+            }
+            // Sortuj indeksy po wartości
+            function newIndexOrder (valuesArray, col) {
+                let indexArray = new Array(localStorage.length);
+                for (let i = 0; i < localStorage.length; i++) indexArray[i] = i;
+                for (let i = 0; i < valuesArray.length; i++) {
+                    for (let j = i; j < valuesArray.length; j++) {
+                        if (valuesArray[i] > valuesArray[j] && asc[col]) {
+                            [valuesArray[i], valuesArray[j]] = [valuesArray[j], valuesArray[i]];
+                            [indexArray[i], indexArray[j]] = [indexArray[j], indexArray[i]];
+                        }
+                        if (valuesArray[i] < valuesArray[j] && !asc[col]) {
+                            [valuesArray[i], valuesArray[j]] = [valuesArray[j], valuesArray[i]];
+                            [indexArray[i], indexArray[j]] = [indexArray[j], indexArray[i]];
+                        }
+                    }
+                }
+                return indexArray;
+            }
+            // Wyswietl posortowane
+            function SortBy (col) {
+                let valuesArray = new Array(localStorage.length);
+                switch (col) {
+                    case 0: {
+                        for (let i = 0; i < localStorage.length; i++) valuesArray[i] = localStorage.key(i).slice(5);
+                        break;
+                    }
+                    case 1: {
+                        for (let i = 0; i < localStorage.length; i++) {
+                            let userObject = JSON.parse(localStorage.getItem(localStorage.key(i)))
+                            valuesArray[i] = userObject.personalData.name;
+                        }
+                        break;
+                    }
+                    case 2: {
+                        for (let i = 0; i < localStorage.length; i++) {
+                            let userObject = JSON.parse(localStorage.getItem(localStorage.key(i)))
+                            valuesArray[i] = userObject.accountData.nick;
+                        }
+                        break;
+                    }
+                    case 3: {
+                        for (let i = 0; i < localStorage.length; i++) {
+                            let userObject = JSON.parse(localStorage.getItem(localStorage.key(i)))
+                            valuesArray[i] = userObject.accountData.email;
+                        }
+                        break;
+                    }
+                    case 4: {
+                        for (let i = 0; i < localStorage.length; i++) {
+                            let userObject = JSON.parse(localStorage.getItem(localStorage.key(i)))
+                            valuesArray[i] = userObject.courseData.type;
+                        }
+                        break;
+                    }
+                }
+                displayTable(newIndexOrder(valuesArray, col));
+                deactivateSortArrows(col);
+                switchSortArrows(col);
+                asc[col] = !asc[col];
+            }
+            // Usun uzytkownika
+            function deleteUser (key) {
+                localStorage.removeItem(key);
+                location.reload();
+            }
+            // Tabela użytkowników
+            function displayTable (indexOrder) {
+                let innerHTML = '';
+                for (let i = 0; i < localStorage.length; i++) {
+                    let key = (indexOrder.length == 0) ? localStorage.key(i) : localStorage.key(indexOrder[i]);
+                    let userObject = JSON.parse(localStorage.getItem(key))
+                    innerHTML += '<tr>';
+                    innerHTML += '<td>' + key +'</td>';
+                    innerHTML += '<td>' + userObject.personalData.name + ' ' +  userObject.personalData.surname + '</td>';
+                    innerHTML += '<td>' + userObject.accountData.nick +'</td>';
+                    innerHTML += '<td>' + userObject.accountData.email +'</td>';
+                    innerHTML += '<td>' + userObject.courseData.type +'</td>';
+                    innerHTML += '<td><input type="button" value="Usuń" onclick="deleteUser(\'' + key + '\')"></td>';
+                    innerHTML += '</tr>';
+                }
+                $('#users')[0].innerHTML = innerHTML;
+                $('#total')[0].innerHTML = 'Łączna liczba użytkowników: ' + localStorage.length;
+            }
+            $(document).ready(function () {
+                displayTable([]);
+            });
+        </script>
+    </body>
+</html>
