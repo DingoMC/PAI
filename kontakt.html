@@ -10,6 +10,7 @@
         <script src="js/json_loader.js"></script>
         <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
         <link href="css/styles.css" rel="stylesheet" />
+        <link href="css/kontakt_styles.css" rel="stylesheet" />
         <link href="css/footer.css" rel="stylesheet" />
     </head>
     <body>
@@ -25,14 +26,16 @@
         </nav>
         <!-- Page Content-->
         <div class="container px-4 px-lg-5">
-            <h4>Dane adresowe</h4>
-            <p>ul. Nadbystrzycka 38 D</p>
-            <p>20-618 Lublin</p>
-            <h4>Dane teleadresowe</h4>
-            <p>Telefon: +48 81 538 41 40</p>
-            <p>E-mail: s95365@pollub.edu.pl</p>
+            <div id="contact-info"></div>
             <h4>Znajdziesz nas tutaj</h4>
             <div id="map" style="width:350px; height:250px;"></div>
+            <h4>Zadaj nam pytanie</h4>
+            <form action="#" mailto="s95365@pollub.edu.pl" id="help-form">
+                <h5>Tytuł</h5>
+                <input type="text" />
+                <h5>Treść</h5>
+                <textarea rows="5"></textarea>
+            </form>
         </div>
         <!-- Footer-->
         <div id="bottom-redux"></div>

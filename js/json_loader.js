@@ -13,7 +13,7 @@ function setFooterContent () {
 }
 // Ładowanie nawigacji
 function setNavContent () {
-    fetch('navlinks.json')
+    fetch('../json/navlinks.json')
     .then(response => response.json())
     .then(data => {
         let innerHTML = '';
@@ -26,7 +26,7 @@ function setNavContent () {
 }
 // Ładowanie kart (index)
 function setCardContent () {
-    fetch('karty.json')
+    fetch('../json/cards.json')
     .then(response => response.json())
     .then(data => {
         let innerHTML = '';
@@ -44,7 +44,7 @@ function setCardContent () {
 }
 // Ładowanie listy kursów (kursy)
 function setCourseList () {
-    fetch('karty.json')
+    fetch('../json/cards.json')
     .then(response => response.json())
     .then(data => {
         let innerHTML = '';
@@ -55,6 +55,44 @@ function setCourseList () {
     })
     .catch(console.error);
 }
+// Ładowanie nagłówków kolumn (admin)
+function setColumnHeaders () {
+    const xhr = new XMLHttpRequest();
+    xhr.responseType = 'json';
+    if (xhr) {
+        let url = '../json/columns.json';
+        xhr.open("GET", url);
+        xhr.addEventListener("readystatechange", function () {
+            if (xhr.readyState === 4) {
+                let cols = xhr.response;
+                let innerHTML = '', tr2 = '';
+                for (let i = 0; i < cols.names.length; i++) {
+                    innerHTML += '<th>' + cols.names[i] + '</th>';
+                    if (i < cols.names.length - 1) tr2 += '<th><div id="wrap"><input type="button" onclick="SortBy(' + i + ')" value="Sortuj" /><div class="sorting-arrows"><div class="arrow-up inactive au-col-' + i + '"></div><div class="arrow-none an-col-' + i + '"></div><div class="arrow-down inactive ad-col-' + i + '"></div></div></div></th>';
+                    else tr2 += '<th></th>';
+                }
+                $('#theaders')[0].innerHTML = innerHTML;
+                $('#tr2')[0].innerHTML = tr2;
+            }
+        });
+        xhr.send(null);
+    }
+}
+// Ładowanie danych kontaktowych
+function setContactData () {
+    fetch('../json/contact.json')
+    .then(response => response.json())
+    .then(data => {
+        let innerHTML = '<h4>Dane adresowe</h4>';
+        innerHTML += '<p>' + data.address.street + ' ' + data.address.bn + '</p>';
+        innerHTML += '<p>' + data.address.postal_code + ' ' + data.address.city + '</p>';
+        innerHTML += '<h4>Dane teleadresowe</h4>';
+        innerHTML += '<p>Telefon: ' + data.contact.phone + '</p>';
+        innerHTML += '<p>E-mail: ' + data.contact.email + '</p>'
+        $('#contact-info')[0].innerHTML = innerHTML;
+    })
+    .catch(console.error);
+}
 $(document).ready(function () {
     let path = window.location.pathname;
     let page = path.split('/').pop();
@@ -62,4 +100,6 @@ $(document).ready(function () {
     setFooterContent();
     if (page === 'index.html') setCardContent();
     if (page === 'kursy.html') setCourseList();
+    if (page === 'admin.html') setColumnHeaders();
+    if (page === 'kontakt.html') setContactData();
 });
