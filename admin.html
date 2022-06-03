@@ -187,7 +187,7 @@
                     innerHTML += '<td>' + userObject.accountData.nick +'</td>';
                     innerHTML += '<td>' + userObject.accountData.email +'</td>';
                     innerHTML += '<td>' + userObject.courseData.type +'</td>';
-                    innerHTML += '<td><input type="button" value="Usuń" onclick="deleteUser(\'' + key + '\')"></td>';
+                    innerHTML += '<td><input type="button" class="delete" value="Usuń" onclick="deleteUser(\'' + key + '\')"></td>';
                     innerHTML += '</tr>';
                 }
                 $('#users')[0].innerHTML = innerHTML;

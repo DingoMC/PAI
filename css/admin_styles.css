@@ -76,3 +76,15 @@ th input:hover {
 .arrow-none.inactive {background-color: #686868;}
 .arrow-up.inactive {border-bottom: 0.45rem solid #558855;}
 .arrow-down.inactive {border-top: 0.45rem solid #885555;}
+.delete, .delete:hover {
+    font-size: 0.9rem;
+    color: #ffffff;
+    background-color: #ff5555;
+    border: 2px solid #ff7777;
+    border-radius: 5px;
+    transition: background-color 0.5s, border-color 0.5s;
+}
+.delete:hover {
+    background-color: #ff7777;
+    border: 2px solid #ff9999;
+}
