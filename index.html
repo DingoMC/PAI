@@ -51,9 +51,6 @@
         <!-- Core theme JS-->
         <script src="js/scripts.js"></script>
         <script>
-            $(document).ready(function () {
-                $('footer')[0].innerHTML = getFooterContent();
-            });
             // Slider
             function slideSwitch () {
                 let $active = $('#slideshow IMG.active');
@@ -69,40 +66,6 @@
             $(function () {
                 setInterval("slideSwitch()", 5000);
             });
-            // Karty
-            fetch('karty.json')
-            .then(response => response.json())
-            .then(data => {
-                let innerHTML = '';
-                for (let i = 0; i < data.cards.length; i++) {
-                    innerHTML += '<div class="col-md-4 col-sm-6 mb-5"><div class="card h-100 ' + data.cards[i].title.toLowerCase() + '"><div class="card-body">';
-                    innerHTML += '<h2 class="card-title"><img src="zdjecia/' + data.cards[i].title.toLowerCase() + '.png" />' + data.cards[i].title + '</h2>';
-                    innerHTML += '<p class="card-text">' + data.cards[i].content + '</p>';
-                    innerHTML += '</div>';
-                    innerHTML += '<div class="card-footer"><a class="btn btn-primary btn-sm" target="blank" href="' + data.cards[i].url + '">Czytaj więcej...</a></div>';
-                    innerHTML += '</div></div>';
-                }
-                $('#cards')[0].innerHTML = innerHTML;
-            })
-            .catch(console.error);
-            // Nawigacja
-            function IsLinkThisPage (link) {
-                let href = document.location.href;
-                let lastPathSegment = href.substr(href.lastIndexOf('/')  + 1);
-                if (lastPathSegment == link) return true;
-                return false;
-            }
-            fetch('navlinks.json')
-            .then(response => response.json())
-            .then(data => {
-                let innerHTML = '';
-                for (let i = 0; i < data.links.length; i++) {
-                    if (IsLinkThisPage(data.links[i].href)) innerHTML += '<li class="nav-item"><a class="nav-link active" aria-current="page" href="#!">' + data.links[i].title + '</a></li>';
-                    else innerHTML += '<li class="nav-item"><a class="nav-link" href="' + data.links[i].href + '">' + data.links[i].title + '</a></li>';
-                }
-                $('#navlinks')[0].innerHTML = innerHTML;
-            })
-            .catch(console.error)
         </script>
     </body>
 </html>

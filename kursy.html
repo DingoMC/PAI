@@ -7,6 +7,7 @@
         <meta name="author" content="Marcin Basak" />
         <title>JS Explorer - Kursy</title>
         <script src="jquery/jquery.js"></script>
+        <script src="js/json_loader.js"></script>
         <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
         <link href="css/styles.css" rel="stylesheet" />
         <link href="css/footer.css" rel="stylesheet" />
@@ -101,44 +102,12 @@
         </div>
         <!-- Footer-->
         <div id="bottom-redux"></div>
-        <footer>
-            <span>Copyright &copy; Marcin Basak</span>
-            <span>Projekt PAI 2022</span>
-        </footer>
+        <footer></footer>
         <!-- Bootstrap core JS-->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
         <!-- Core theme JS-->
         <script src="js/scripts.js"></script>
         <script>
-            // Lista - Kursy
-            fetch('karty.json')
-            .then(response => response.json())
-            .then(data => {
-                let innerHTML = '';
-                for (let i = 0; i < data.cards.length; i++) {
-                    innerHTML += '<option '+ (i == 0 ? 'selected="selected"' : '') +' value="' + data.cards[i].title.toLowerCase() + '" >' + data.cards[i].title + '</option><span class="option">' + data.cards[i].title + '</span>';
-                }
-                $('#kurs')[0].innerHTML = innerHTML;
-            })
-            .catch(console.error);
-            // Nawigacja
-            function IsLinkThisPage (link) {
-                let href = document.location.href;
-                let lastPathSegment = href.substr(href.lastIndexOf('/')  + 1);
-                if (lastPathSegment == link) return true;
-                return false;
-            }
-            fetch('navlinks.json')
-            .then(response => response.json())
-            .then(data => {
-                let innerHTML = '';
-                for (let i = 0; i < data.links.length; i++) {
-                    if (IsLinkThisPage(data.links[i].href)) innerHTML += '<li class="nav-item"><a class="nav-link active" aria-current="page" href="#!">' + data.links[i].title + '</a></li>';
-                    else innerHTML += '<li class="nav-item"><a class="nav-link" href="' + data.links[i].href + '">' + data.links[i].title + '</a></li>';
-                }
-                $('#navlinks')[0].innerHTML = innerHTML;
-            })
-            .catch(console.error);
             /* Sprawdzanie pól */
             let fields = new Array('imie', 'nazwisko', 'email', 'login', 'pass', 'cpass');
             let RegExps = new Array (
