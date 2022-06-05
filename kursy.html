@@ -239,6 +239,10 @@
                 user.accountData.email = $('#email').val();
                 user.accountData.nick = $('#login').val();
                 user.accountData.pass = $('#pass').val();
+                let today = new Date();
+                let add0 = (value) => {return value < 10 ? "0" + value.toString() : value.toString()};
+                let date = today.getFullYear().toString() + '-' + add0(today.getMonth() + 1) + '-' + add0(today.getDate()) + ', ' + add0(today.getHours()) + ':' + add0(today.getMinutes());
+                user.accountData.memberfrom = date;
                 user.courseData = {};
                 user.courseData.type = $('#kurs :selected').val();
                 user.courseData.payment = $('input[name="pay"]:checked').val();

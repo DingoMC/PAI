@@ -55,6 +55,20 @@ function setCourseList () {
     })
     .catch(console.error);
 }
+// Lista kursów do edycji (admin)
+function setEditCourseList (selectedOption) {
+    fetch('../json/cards.json')
+    .then(response => response.json())
+    .then(data => {
+        let innerHTML = '';
+        for (let i = 0; i < data.cards.length; i++) {
+            option = data.cards[i].title.toLowerCase();
+            innerHTML += '<option '+ (option == selectedOption ? 'selected="selected"' : '') +' value="' + option + '" >' + data.cards[i].title + '</option>';
+        }
+        $('#course')[0].innerHTML = innerHTML;
+    })
+    .catch(console.error);
+}
 // Ładowanie nagłówków kolumn (admin)
 function setColumnHeaders () {
     const xhr = new XMLHttpRequest();
@@ -68,7 +82,7 @@ function setColumnHeaders () {
                 let innerHTML = '', tr2 = '';
                 for (let i = 0; i < cols.names.length; i++) {
                     innerHTML += '<th>' + cols.names[i] + '</th>';
-                    if (i < cols.names.length - 1) tr2 += '<th><div id="wrap"><input type="button" onclick="SortBy(' + i + ')" value="Sortuj" /><div class="sorting-arrows"><div class="arrow-up inactive au-col-' + i + '"></div><div class="arrow-none an-col-' + i + '"></div><div class="arrow-down inactive ad-col-' + i + '"></div></div></div></th>';
+                    if (i < cols.names.length - 1) tr2 += '<th><div id="wrap"><input type="button" class="sort" onclick="SortBy(' + i + ')" value="Sortuj" /><div class="sorting-arrows"><div class="arrow-up inactive au-col-' + i + '"></div><div class="arrow-none an-col-' + i + '"></div><div class="arrow-down inactive ad-col-' + i + '"></div></div></div></th>';
                     else tr2 += '<th></th>';
                 }
                 $('#theaders')[0].innerHTML = innerHTML;
@@ -101,5 +115,6 @@ $(document).ready(function () {
     if (page === 'index.html') setCardContent();
     if (page === 'kursy.html') setCourseList();
     if (page === 'admin.html') setColumnHeaders();
+    if (page === 'admin.html') setEditCourseList();
     if (page === 'kontakt.html') setContactData();
 });

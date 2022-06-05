@@ -10,7 +10,7 @@ thead {
     font-size: 1.1rem;
 }
 th {
-    padding: 0.5rem;
+    padding: 0.3rem;
     border-right: 2px solid #452345;
 }
 th:last-child {border-right: none;}
@@ -31,7 +31,7 @@ tbody tr:nth-child(2n+1) {
     background-color: #e0c0e0;
 }
 thead tr, tfoot tr {background-color: #d0b0d0;}
-th input, th input:hover {
+.sort, .sort:hover {
     font-size: 0.9rem;
     color: #ffffff;
     background-color: #5555ff;
@@ -39,7 +39,7 @@ th input, th input:hover {
     border-radius: 5px;
     transition: background-color 0.5s, border-color 0.5s;
 }
-th input:hover {
+.sort:hover {
     background-color: #7777ff;
     border: 2px solid #9999ff;
 }
@@ -87,4 +87,72 @@ th input:hover {
 .delete:hover {
     background-color: #ff7777;
     border: 2px solid #ff9999;
+}
+.edit, .edit:hover {
+    font-size: 0.9rem;
+    color: #ffffff;
+    background-color: #ff9955;
+    border: 2px solid #ffaa77;
+    border-radius: 5px;
+    transition: background-color 0.5s, border-color 0.5s;
+}
+.edit:hover {
+    background-color: #ffaa77;
+    border: 2px solid #ffcc99;
+}
+.action-group {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    column-gap: 0.2rem;
+    padding: 0.1rem;
+}
+.edit-field {
+    font-size: 0.95rem;
+    width: 100%;
+    background: transparent;
+    color: #000000;
+    outline: none;
+    border-left: none;
+    border-right: none;
+    border-top: none;
+    border-bottom: 2px solid #770077;
+    border-radius: 0px;
+    text-align: center;
+}
+.edit-field:disabled {
+    font-size: 0.95rem;
+    width: 100%;
+    background: rgba(170, 170, 170, 0.3);
+    color: #424242;
+    outline: none;
+    border-left: none;
+    border-right: none;
+    border-top: none;
+    border-bottom: 2px solid #424242;
+}
+.hidden {display: none;}
+.save-edit, .save-edit:hover {
+    font-size: 0.9rem;
+    color: #ffffff;
+    background-color: #33aa33;
+    border: 2px solid #55aa55;
+    border-radius: 5px;
+    transition: background-color 0.5s, border-color 0.5s;
+}
+.save-edit:hover {
+    background-color: #55bb55;
+    border: 2px solid #77cc77;
+}
+.cancel-edit, .cancel-edit:hover {
+    font-size: 0.9rem;
+    color: #ffffff;
+    background-color: #aa3333;
+    border: 2px solid #aa5555;
+    border-radius: 5px;
+    transition: background-color 0.5s, border-color 0.5s;
+}
+.cancel-edit:hover {
+    background-color: #bb5555;
+    border: 2px solid #cc7777;
 }

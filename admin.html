@@ -30,9 +30,18 @@
                 <thead>
                     <tr id="theaders"></tr>
                     <tr id="tr2"></tr>
+                    <tr id="edit-mode" class="hidden">
+                        <th><input id="id" class="edit-field" type="text" disabled/></th>
+                        <th><input id="name" class="edit-field" type="text" disabled/></th>
+                        <th><input id="nick" class="edit-field" type="text"/></th>
+                        <th><input id="email" class="edit-field" type="text"/></th>
+                        <th><select name="course" id="course" class="edit-field"></select></th>
+                        <th><input id="memberfrom" class="edit-field" type="text" disabled/></th>
+                        <th><div class="action-group" id="edit-buttons"></div></th>
+                    </tr>
                 </thead>
                 <tbody id="users"></tbody>
-                <tfoot><tr><td id="total" colspan="6"></td></tr></tfoot>
+                <tfoot><tr><td id="total" colspan="7"></td></tr></tfoot>
             </table>
         </div>
         <!-- Footer-->
@@ -43,7 +52,7 @@
         <!-- Core theme JS-->
         <script src="js/scripts.js"></script>
         <script>
-            let asc = new Array(5);
+            let asc = new Array(6);
             asc.fill(true);
             // Dezaktywuj wskaźniki sortowania w innych kolumnach niż sortowanej
             function deactivateSortArrows (active_col) {
@@ -121,6 +130,13 @@
                         }
                         break;
                     }
+                    case 5: {
+                        for (let i = 0; i < localStorage.length; i++) {
+                            let userObject = JSON.parse(localStorage.getItem(localStorage.key(i)))
+                            valuesArray[i] = userObject.accountData.memberfrom;
+                        }
+                        break;
+                    }
                 }
                 displayTable(newIndexOrder(valuesArray, col));
                 deactivateSortArrows(col);
@@ -132,20 +148,47 @@
                 localStorage.removeItem(key);
                 location.reload();
             }
+            // Anuluj edycję
+            function cancelEdit () {
+                $('#edit-mode').addClass('hidden');
+            }
+            // Zapisz edycję
+            function modifyUser (key) {
+                let userObject = JSON.parse(localStorage.getItem(key));
+                userObject.accountData.nick = $('#nick').val();
+                userObject.accountData.email = $('#email').val();
+                userObject.courseData.type = $('#course :selected').val();
+                localStorage.setItem(key, JSON.stringify(userObject));
+                location.reload();
+            }
+            // Wyświetl pola edycji
+            function displayEdit (key) {
+                $('#edit-mode').removeClass('hidden');
+                $('#id').val(key);
+                let userObject = JSON.parse(localStorage.getItem(key));
+                $('#name').val(userObject.personalData.name + ' ' + userObject.personalData.surname);
+                $('#nick').val(userObject.accountData.nick);
+                $('#email').val(userObject.accountData.email);
+                $('#course').val(userObject.courseData.type);
+                $('#memberfrom').val(userObject.accountData.memberfrom);
+                $('#edit-buttons')[0].innerHTML = '<input type="button" class="save-edit" value="Zapisz" onclick="modifyUser(\'' + key + '\')">' + '<input type="button" class="cancel-edit" value="Anuluj" onclick="cancelEdit()">';
+            }
             // Tabela użytkowników
             function displayTable (indexOrder) {
                 let innerHTML = '';
                 for (let i = 0; i < localStorage.length; i++) {
                     let key = (indexOrder.length == 0) ? localStorage.key(i) : localStorage.key(indexOrder[i]);
-                    let userObject = JSON.parse(localStorage.getItem(key))
+                    let userObject = JSON.parse(localStorage.getItem(key));
                     innerHTML += '<tr>';
                     innerHTML += '<td>' + key +'</td>';
                     innerHTML += '<td>' + userObject.personalData.name + ' ' +  userObject.personalData.surname + '</td>';
                     innerHTML += '<td>' + userObject.accountData.nick +'</td>';
                     innerHTML += '<td>' + userObject.accountData.email +'</td>';
                     innerHTML += '<td>' + userObject.courseData.type +'</td>';
-                    innerHTML += '<td><input type="button" class="delete" value="Usuń" onclick="deleteUser(\'' + key + '\')"></td>';
-                    innerHTML += '</tr>';
+                    innerHTML += '<td>' + userObject.accountData.memberfrom +'</td>';
+                    innerHTML += '<td><div class="action-group"><input type="button" class="delete" value="Usuń" onclick="deleteUser(\'' + key + '\')">';
+                    innerHTML += '<input type="button" class="edit" value="Edytuj" onclick="displayEdit(\'' + key + '\')">';
+                    innerHTML += '</div></td></tr>';
                 }
                 $('#users')[0].innerHTML = innerHTML;
                 $('#total')[0].innerHTML = 'Łączna liczba użytkowników: ' + localStorage.length;

@@ -28,13 +28,14 @@
         <div class="container px-4 px-lg-5">
             <div id="contact-info"></div>
             <h4>Znajdziesz nas tutaj</h4>
-            <div id="map" style="width:350px; height:250px;"></div>
+            <div id="map"></div>
             <h4>Zadaj nam pytanie</h4>
-            <form action="#" mailto="s95365@pollub.edu.pl" id="help-form">
+            <form action="mailto:s95365@pollub.edu.pl" method="get" id="help-form">
                 <h5>Tytuł</h5>
-                <input type="text" />
+                <input type="text" id="title" />
                 <h5>Treść</h5>
-                <textarea rows="5"></textarea>
+                <textarea rows="5" id="content"></textarea>
+                <div id="right"><button type="submit" id="send" disabled>Wyślij</button></div>
             </form>
         </div>
         <!-- Footer-->
@@ -54,6 +55,17 @@
                 mapTypeId: google.maps.MapTypeId.ROADMAP
             };
             let mapa = new google.maps.Map(document.getElementById("map"), opcjeMapy);
+            // Zadaj nam pytanie - sprawdzenie czy pola są puste
+            function updateButton () {
+                if ($('#title').val() === '' || $('#content').val() === '') $('#send').attr('disabled','disabled');
+                else $('#send').removeAttr('disabled');
+            }
+            $('#title').on('input click', function () {
+                updateButton();
+            });
+            $('#content').on('input click', function () {
+                updateButton();
+            });
         </script>
     </body>
 </html>

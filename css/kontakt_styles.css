@@ -12,3 +12,41 @@ form > h5 {
 form > textarea {
     max-height: 120px;
 }
+#map {
+    margin-bottom: 0.45rem;
+    width: 350px;
+    height: 250px;
+}
+#right {
+    display: flex;
+    justify-content: right;
+}
+#send, #send:hover {
+    color: #ffffff;
+    border-radius: 3px;
+    font-size: 1rem;
+    font-weight: bold;
+    padding: 0.5rem 1rem;
+    width: max-content;
+}
+#send {
+    background-color: #774599;
+    border: 2px solid #663488;
+    transition: background-color 0.5s, border-color 0.5s;
+}
+#send:hover {
+    background-color: #9967bb;
+    border: 2px solid #8856aa;
+    transition: background-color 0.5s, border-color 0.5s;
+}
+#send:disabled {
+    background-color: #777777;
+    color: #a9a9a9;
+    border: 2px solid #a97777;
+}
+@media screen and (max-width: 400px) {
+    #map {
+        width: 100%;
+        height: 150px;
+    }
+}
