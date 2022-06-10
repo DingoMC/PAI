@@ -17,11 +17,11 @@
 .backbone:hover {border-color: rgba(0, 78, 123, 1) !important;}
 #slideshow img {
     width: 100%;
-    height: 384px;
+    aspect-ratio: 16 / 9;
 }
 #slideshow {
     position: relative;
-    height: 384px;
+    aspect-ratio: 16 / 9;
 }
 #slideshow img {
     position: absolute;
@@ -31,21 +31,3 @@
 }
 #slideshow img.active {z-index: 10;}
 #slideshow img.last-active {z-index: 9;}
-@media screen and (max-width: 784px) {
-    #slideshow img {
-        height: 240px;
-    }
-    #slideshow {
-        position: relative;
-        height: 240px;
-    }
-}
-@media screen and (max-width: 384px) {
-    #slideshow img {
-        height: 160px;
-    }
-    #slideshow {
-        position: relative;
-        height: 160px;
-    }
-}

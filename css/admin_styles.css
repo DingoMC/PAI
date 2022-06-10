@@ -3,6 +3,7 @@ table {
     text-align: center;
     margin-top: 0.35rem;
     border-radius: 3px;
+    width: min-content;
 }
 thead {
     border-bottom: 2px solid #452345;
@@ -155,4 +156,9 @@ thead tr, tfoot tr {background-color: #d0b0d0;}
 .cancel-edit:hover {
     background-color: #bb5555;
     border: 2px solid #cc7777;
+}
+@media screen and (max-width: 720px) {
+    table {max-width: 480px; transform: scale(0.75); transform-origin: top left;}
+    thead {font-size: 0.95rem;}
+    tfoot tr {font-size: 0.75rem;}
 }
